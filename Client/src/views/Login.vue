@@ -26,8 +26,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useAuthStore } from '@/stores/authStore';
+import {defineComponent, ref} from 'vue';
+import {useAuthStore} from '@/stores/authStore';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -43,7 +43,7 @@ export default defineComponent({
         const loginSuccess = await authStore.performLogin({ username: username.value, password: password.value });
 
         if (loginSuccess) {
-          if (authStore.isUserActive()) {
+          if (authStore.isAuthenticated()) {
             window.location.href = '/welcome';
           } else {
             errorMessage.value = 'User is inactive. Please contact support.';

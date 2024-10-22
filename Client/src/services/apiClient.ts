@@ -19,7 +19,7 @@ apiClient.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-const handleErrorResponse = (error) => {
+const handleErrorResponse = (error: any) => {
     if (!error.response) {
         alert('Network error. Please check your internet connection.');
     } else {

@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     }
   },
   server: {
@@ -19,10 +19,15 @@ export default defineConfig({
     host: true,
     port: 3000,
     proxy: {
-      '/auth': {
+      '/api/auth': {
         target: 'http://localhost:5000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/auth/, '/auth')
+        rewrite: (path) => path.replace(/^\/api\/auth/,  '/auth')
+      },
+      '/api/users': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/users/, '/users'),
       },
     },
   }

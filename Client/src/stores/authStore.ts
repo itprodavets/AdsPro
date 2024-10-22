@@ -1,6 +1,7 @@
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { authService, UserLoginRequest } from '@/services/authService';
+import {defineStore} from 'pinia';
+import {ref} from 'vue';
+import {authService} from '@/services/authService';
+import {UserLoginRequest} from "@types";
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref<string | null>(localStorage.getItem('token'));
@@ -23,13 +24,10 @@ export const useAuthStore = defineStore('auth', () => {
             return false;
         }
     };
-    
-    const isUserActive = (): boolean => isActive.value;
-    
+
     const logout = () => {
         token.value = null;
         localStorage.removeItem('token');
-        isActive.value = false;
     };
     
     const isAuthenticated = (): boolean => !!token.value;
@@ -39,7 +37,6 @@ export const useAuthStore = defineStore('auth', () => {
         errorMessage,
         performLogin,
         logout,
-        isAuthenticated,
-        isUserActive,
+        isAuthenticated
     };
 });

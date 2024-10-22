@@ -5,7 +5,7 @@ services:
       dockerfile: Server/Api/Dockerfile
     environment:
       - ConnectionStrings__DbConnection=Server=db;Database=ServerDb;User Id=sa;Password=S0MEstrongPA55w0rd;Encrypt=False;
-      - ConnectionStrings__CacheConnection=localhost:6379
+      - ConnectionStrings__CacheConnection=cache:6379
     restart: always
     depends_on:
       - db
