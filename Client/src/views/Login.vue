@@ -34,21 +34,35 @@ export default defineComponent({
   setup() {
     const authStore = useAuthStore();
     
-    const username = ref('');
-    const password = ref('');
+    const username = ref<string>('');
+    const password = ref<string>('');
+    const errorMessage = ref<string | null>(null);
     
     const handleLogin = async () => {
-      await authStore.performLogin(username.value, password.value);
-      if (authStore.isAuthenticated()) {
-        window.location.href = '/welcome';
+      try {
+        const loginSuccess = await authStore.performLogin({ username: username.value, password: password.value });
+
+        if (loginSuccess) {
+          if (authStore.isUserActive()) {
+            window.location.href = '/welcome';
+          } else {
+            errorMessage.value = 'User is inactive. Please contact support.';
+            password.value = '';
+          }
+        } else {
+          errorMessage.value = 'We could not log you in. Please check your username/password and try again.';
+          password.value = '';
+        }
+      } catch (error) {
+        errorMessage.value = 'An error occurred while attempting to log in. Please try again later.';
       }
     };
 
     return {
       username,
       password,
+      errorMessage,
       handleLogin,
-      errorMessage: authStore.errorMessage,
     };
   },
 });

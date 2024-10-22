@@ -6,6 +6,12 @@ type UserLoginRequest = {
     password: string;
 };
 
-export async function login(request: UserLoginRequest) {
-    return apiClient.post('/auth/login', request);
+ async function login(request: UserLoginRequest) {
+    return await apiClient.post('/auth/login', request, {
+        withCredentials: true
+    });
 }
+
+export const authService = {
+    login,
+};

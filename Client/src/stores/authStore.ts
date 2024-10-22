@@ -1,31 +1,38 @@
 import { defineStore } from 'pinia';
-import { login } from '@/services/authService';
 import { ref } from 'vue';
+import { authService, UserLoginRequest } from '@/services/authService';
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref<string | null>(localStorage.getItem('token'));
     const errorMessage = ref<string | null>(null);
 
-    const performLogin = async (username: string, password: string) => {
+    const performLogin = async (request: UserLoginRequest): Promise<boolean> => {
         try {
-            const response = await login({
-                login: username,
-                password: password,
-            });
-            token.value = response.data.token;
-            localStorage.setItem('token', response.data.token);
-            errorMessage.value = null;
+            const response = await authService.login(request);
+            if (response.status === 200 && response.data.token) {
+                token.value = response.data.token;
+                localStorage.setItem('token', response.data.token);
+                errorMessage.value = null;
+                return true;
+            } else {
+                errorMessage.value = 'Invalid username or password';
+                return false;
+            }
         } catch (error) {
-            errorMessage.value = 'Invalid username or password';
+            errorMessage.value = 'An unexpected error occurred';
+            return false;
         }
     };
-
+    
+    const isUserActive = (): boolean => isActive.value;
+    
     const logout = () => {
         token.value = null;
         localStorage.removeItem('token');
+        isActive.value = false;
     };
-
-    const isAuthenticated = () => !!token.value;
+    
+    const isAuthenticated = (): boolean => !!token.value;
 
     return {
         token,
@@ -33,5 +40,6 @@ export const useAuthStore = defineStore('auth', () => {
         performLogin,
         logout,
         isAuthenticated,
+        isUserActive,
     };
 });

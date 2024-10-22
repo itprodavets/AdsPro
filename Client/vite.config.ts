@@ -15,15 +15,14 @@ export default defineConfig({
       usePolling: true,
     },
     headers: {
-      'Content-Security-Policy': "script-src 'self' 'unsafe-eval';",
     },
     host: true,
     port: 3000,
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
+      '/auth': {
+        target: 'http://localhost:5000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/auth/, '/auth')
       },
     },
   }
