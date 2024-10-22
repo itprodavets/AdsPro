@@ -15,7 +15,7 @@ public class AuthController(IMediator mediator) : ControllerBase
         try
         {
             var result = await mediator.Send(
-                new UserLoginCommand { Login = request.Username, Password = request.Password }
+                new UserLoginCommand { Username = request.Username, Password = request.Password }
             );
             return Ok(result);
         }

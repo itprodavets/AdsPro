@@ -10,7 +10,7 @@ namespace Application.Commands;
 
 public sealed record UserLoginCommand : IRequest<UserLoginResult>
 {
-    public required string Login { get; init; }
+    public required string Username { get; init; }
     public required string Password { get; init; }
 }
 
@@ -27,15 +27,15 @@ public class UserLoginCommandHandler(
 {
     public async Task<UserLoginResult> Handle(UserLoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Login == request.Login, cancellationToken);
+        var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken);
         if (user is null)
             throw new UnauthorizedAccessException("Неверный логин или пароль.");
 
-        var isPasswordValid = passwordService.VerifyPassword(request.Password, user.PasswordHash);
+        var isPasswordValid = passwordService.VerifyPassword(request.Password, user.Password);
         if (!isPasswordValid)
             throw new UnauthorizedAccessException("Неверный логин или пароль.");
 
-        var token = tokenService.GenerateToken(user.Id, user.Login);
+        var token = tokenService.GenerateToken(user.Id, user.Username);
 
         return new UserLoginResult { Token = token };
     }

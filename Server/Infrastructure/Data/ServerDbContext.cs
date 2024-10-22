@@ -12,9 +12,9 @@ public class ServerDbContext(DbContextOptions<ServerDbContext> options) : DbCont
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id);
-            entity.HasIndex(e => e.Login).IsUnique();
-            entity.Property(e => e.Login).IsRequired().HasMaxLength(50);
-            entity.Property(e => e.PasswordHash).IsRequired().HasMaxLength(512);
+            entity.HasIndex(e => e.Username).IsUnique();
+            entity.Property(e => e.Username).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Password).IsRequired().HasMaxLength(512);
             entity.Property(e => e.IsActive).IsRequired();
         });
     }

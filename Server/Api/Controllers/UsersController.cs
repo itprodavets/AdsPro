@@ -35,7 +35,7 @@ public class UsersController(IMediator mediator) : ControllerBase
         try
         {
             var result = await mediator.Send(
-                new UserUpdateCommand { Login = request.Login, IsActive = request.IsActive }
+                new UserUpdateCommand { Username = request.Username, IsActive = request.IsActive }
             );
 
             return Ok(result);
@@ -51,8 +51,8 @@ public class UsersController(IMediator mediator) : ControllerBase
     {
         try
         {
-            var login = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value;
-            return Ok(login);
+            var username = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value;
+            return Ok(username);
         }
         catch (Exception ex)
         {

@@ -30,12 +30,12 @@ internal class TokenService : ITokenService
         _tokenLifetime = int.TryParse(jwtSettings["LifetimeMinutes"], out var lifetime) ? lifetime : 15;
     }
 
-    public string GenerateToken(Guid userId, string login)
+    public string GenerateToken(Guid userId, string username)
     {
         var claims = new[]
         {
             new Claim(AuthClaimTypes.UserId, userId.ToString()),
-            new Claim(AuthClaimTypes.Name, login),
+            new Claim(AuthClaimTypes.Name, username),
             new Claim(
                 AuthClaimTypes.Expiration,
                 DateTime.UtcNow.AddMinutes(_tokenLifetime).ToString(CultureInfo.InvariantCulture)

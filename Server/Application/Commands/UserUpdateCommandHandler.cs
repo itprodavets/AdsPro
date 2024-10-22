@@ -10,7 +10,7 @@ namespace Application.Commands;
 
 public sealed record UserUpdateCommand : IRequest<bool>
 {
-    public required string Login { get; init; }
+    public required string Username { get; init; }
     public required bool IsActive { get; init; }
 }
 
@@ -19,7 +19,7 @@ public class UserUpdateCommandHandler(ServerDbContext dbContext, IDistributedCac
 {
     public async Task<bool> Handle(UserUpdateCommand request, CancellationToken cancellationToken)
     {
-        var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Login == request.Login, cancellationToken);
+        var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken);
         if (user is null)
             return false;
 

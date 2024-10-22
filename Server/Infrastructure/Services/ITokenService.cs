@@ -4,5 +4,5 @@ namespace Infrastructure.Services;
 
 public interface ITokenService
 {
-    string GenerateToken(Guid userId, string login);
+    string GenerateToken(Guid userId, string username);
 }
