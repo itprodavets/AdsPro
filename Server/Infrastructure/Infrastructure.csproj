@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>Library</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="2.2.0" />
     </ItemGroup>
 </Project>

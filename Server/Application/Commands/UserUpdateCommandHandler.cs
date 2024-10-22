@@ -23,7 +23,7 @@ public class UserUpdateCommandHandler(ServerDbContext dbContext, IDistributedCac
         if (user is null)
             return false;
 
-        user.IsActive = request.IsActive;
+        user.SetActive(request.IsActive);
         await dbContext.SaveChangesAsync(cancellationToken);
         var cacheKey = $"UserInfo#{user.Id}";
         await cache.SetAsync(

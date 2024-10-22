@@ -5,7 +5,7 @@ namespace Infrastructure.Data;
 
 public class ServerDbContext(DbContextOptions<ServerDbContext> options) : DbContext(options)
 {
-    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<User> Users { get; init; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

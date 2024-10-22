@@ -26,7 +26,12 @@ public static class DatabaseExtensions
             return;
 
         dbContext.Users.AddRange(
-            Enumerable.Range(0, 20).Select(i => new User($"user{i}", passwordService.HashPassword($"password{i}")))
+            Enumerable.Range(0, 20).Select(i => new User(
+                Guid.NewGuid(),
+                $"user{i}",
+                passwordService.HashPassword($"password{i}")
+                ).SetActive(true)
+            )
         );
         dbContext.SaveChanges();
     }

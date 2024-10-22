@@ -18,14 +18,14 @@ builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
-        policy =>
-        {
-            policy
-                .WithOrigins("http://localhost:3000")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();
-        });
+      policyBuilder =>
+      {
+          policyBuilder
+              .WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .WithMethods(["GET","POST","PUT","DELETE","OPTIONS"])
+              .AllowCredentials();
+      });
 });
 
 builder.Services.AddDbContextPool<ServerDbContext>(options =>

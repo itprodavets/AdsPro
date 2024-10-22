@@ -2,18 +2,19 @@
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["server/Api/Api.csproj", "server/Api/"]
-COPY ["server/Application/Application.csproj", "server/Application/"]
-COPY ["server/Infrastructure/Infrastructure.csproj", "server/Infrastructure/"]
-COPY ["server/Domain/Domain.csproj", "server/Domain/"]
-RUN dotnet restore "server/Api/Api.csproj"
+
+COPY ["Server/Api/Api.csproj", "Server/Api/"]
+COPY ["Server/Application/Application.csproj", "Server/Application/"]
+COPY ["Server/Infrastructure/Infrastructure.csproj", "Server/Infrastructure/"]
+COPY ["Server/Domain/Domain.csproj", "Server/Domain/"]
+
+RUN dotnet restore "Server/Api/Api.csproj"
 COPY . .
-WORKDIR "/src/server/Api"
+WORKDIR "/src/Server/Api"
 RUN dotnet build "Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

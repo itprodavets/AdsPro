@@ -1,27 +1,16 @@
-x-base:
-  &base
-  restart: always
-  logging:
-    driver: json-file
-    options:
-      max-size: 1m
-      max-file: 1
 services:
   host:
-    <<: *base
     build:
-      context: server
-      dockerfile: Api/Dockerfile
-    ports:
-      - "8080:8080"
+      context: .
+      dockerfile: Server/Api/Dockerfile
     environment:
       - ConnectionStrings__DbConnection=Server=db;Database=ServerDb;User Id=sa;Password=S0MEstrongPA55w0rd;Encrypt=False;
       - ConnectionStrings__CacheConnection=localhost:6379
+    restart: always
     depends_on:
       - db
       - cache
   db:
-    <<: *base
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
       - "1433:1433"
@@ -30,14 +19,16 @@ services:
       - MSSQL_SA_PASSWORD=S0MEstrongPA55w0rd
     volumes:
       - db:/var/opt/mssql
+    restart: always
   cache:
-    <<: *base
     image: redis:7.4-alpine
     container_name: redis_container
     ports:
       - "6379:6379"
     volumes:
       - cache:/data
+    restart: always
 volumes:
+  host:
   cache:
   db:
