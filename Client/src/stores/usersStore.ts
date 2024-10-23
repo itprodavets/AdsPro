@@ -10,10 +10,9 @@ export const useUsersStore = defineStore('users', () => {
 
     const fetchUsers = async () => {
         try {
-            const data = await userService.getUsers();
-            
-            total.value = data.total;
-            users.value = data.items;
+            const response = await userService.getUsers();
+            total.value = response.data.total;
+            users.value = response.data.items;
         } catch (error) {
             console.error('Failed to fetch users:', error);
         }
@@ -28,11 +27,10 @@ export const useUsersStore = defineStore('users', () => {
             modifiedUsers.value.push({username, isActive});
         }
     };
-
+    
     const saveChanges = async () => {
         try {
             for (const user of modifiedUsers.value) {
-                alert('Saving changes for user: ' + user.username);
                 await userService.updateUser({
                     username: user.username,
                     isActive: user.isActive
@@ -46,6 +44,7 @@ export const useUsersStore = defineStore('users', () => {
     };
 
     return {
+        total,
         users,
         modifiedUsers,
         fetchUsers,

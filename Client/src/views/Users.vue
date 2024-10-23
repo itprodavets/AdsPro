@@ -6,6 +6,10 @@
       <button @click="saveChanges">Save</button>
     </div>
     <div class="users-list">
+      <div class="user-header">
+        <span>Username</span>
+        <span>Active</span>
+      </div>
       <UserRow v-for="user in usersStore.users" :key="user.id" :user="user"/>
     </div>
   </div>
@@ -18,8 +22,8 @@ import UserRow from '@/components/UserRow.vue';
 
 const usersStore = useUsersStore();
 
-onMounted(() => {
-  usersStore.fetchUsers();
+onMounted(async () => {
+  await usersStore.fetchUsers();
 });
 
 const saveChanges = () => {
@@ -34,14 +38,22 @@ const saveChanges = () => {
 }
 
 .save-panel {
-  background-color: #f9f9f9;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .users-list {
   display: flex;
   flex-direction: column;
+}
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 </style>

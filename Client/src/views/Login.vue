@@ -1,6 +1,8 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div class="login-form">
     <form @submit.prevent="handleLogin">
+      <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
+      
       <div class="form-group">
         <label for="username">Username</label>
         <input
@@ -20,14 +22,13 @@
         />
       </div>
       <button type="submit">Login</button>
-      <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
     </form>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
-import {useAuthStore} from '@/stores/authStore';
+import {useAuthStore} from '@/stores';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -41,20 +42,15 @@ export default defineComponent({
     const handleLogin = async () => {
       try {
         const loginSuccess = await authStore.performLogin({ username: username.value, password: password.value });
-
         if (loginSuccess) {
-          if (authStore.isAuthenticated()) {
             window.location.href = '/welcome';
-          } else {
-            errorMessage.value = 'User is inactive. Please contact support.';
-            password.value = '';
-          }
         } else {
           errorMessage.value = 'We could not log you in. Please check your username/password and try again.';
           password.value = '';
         }
       } catch (error) {
-        errorMessage.value = 'An error occurred while attempting to log in. Please try again later.';
+        errorMessage.value = 'We could not log you in. Please check your username/password and try again.';
+        password.value = '';
       }
     };
 
@@ -83,6 +79,7 @@ label {
 }
 
 .error {
+  margin-bottom: 10px;
   color: red;
   margin-top: 10px;
 }

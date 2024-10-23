@@ -50,5 +50,9 @@ const saveChanges = () => {
 
 .edit-panel {
   margin-top: 5px;
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
 }
 </style>
