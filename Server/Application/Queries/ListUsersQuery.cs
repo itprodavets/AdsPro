@@ -22,6 +22,7 @@ public class ListUsersQueryHandler(ServerDbContext dbContext) : IRequestHandler<
         var users = await queryable
             .Select(user => new GetUser
             {
+                Id = user.Id,
                 Username = user.Username,
                 IsActive = user.IsActive
             })
